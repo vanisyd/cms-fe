@@ -34,7 +34,8 @@ const SideMenu: React.FC<IProps> = (props) => {
           width: '30vw',
           backgroundColor: 'white',
           border: '1px solid #d3d3d3',
-          boxShadow: '12px 0px 20px 0px'
+          boxShadow: '12px 0px 20px 0px',
+          zIndex: '200'
         }}
       >
         <div

@@ -1,5 +1,5 @@
 import http from "../../../http"
-import { IUserData } from "../../types/admin/user"
+import { IUserData } from "../../types/user"
 import { IPaginatedResponse } from "../../types/core"
 import { IQueryFilter } from "../../types/filter"
 import { buildRoute } from "./base"

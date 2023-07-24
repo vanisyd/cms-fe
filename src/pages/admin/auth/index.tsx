@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material"
 import { useState } from "react"
 import AuthService from "../../../api/services/admin/auth"
-import { IAuthData, IAuthResponse } from "../../../api/types/admin/user"
+import { IAuthData, IAuthResponse } from "../../../api/types/user"
 import { useAppDispatch } from "../../../state/hook"
 import { setToken, setUser } from "../../../state/user"
 

@@ -2,7 +2,7 @@ import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import { useEffect, useState } from "react"
-import { IUserData } from "../../api/types/admin/user"
+import { IUserData } from "../../api/types/user"
 
 interface IProps {
   userData?: IUserData,
@@ -16,7 +16,7 @@ const UserForm: React.FC<IProps> = (props) => {
   const setInput = (event: any) => {
     setFormData({
       ...formData,
-      [event.target.id]: event.target.value
+      [event.target.name]: event.target.value
     })
   }
 
@@ -52,21 +52,21 @@ const UserForm: React.FC<IProps> = (props) => {
           {userData === undefined ? 'Create' : 'Edit'} User
         </Typography>
         <TextField
-          id="name"
+          name="name"
           label="Name"
           style={{ width: '100%', marginTop: '15px' }}
           onChange={setInput}
           value={formData.name}
         />
         <TextField
-          id="email"
+          name="email"
           label="Email"
           style={{ width: '100%' }}
           onChange={setInput}
           value={formData.email}
         />
         <TextField
-          id="password"
+          name="password"
           label="Password"
           type="password"
           style={{ width: '100%' }}

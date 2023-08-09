@@ -23,3 +23,15 @@ export interface IAuthResponse {
   user: IUserResponse,
   token: ITokenData
 }
+
+export interface IAccountData {
+  id: number,
+  name: string,
+  type: string,
+  user_id: number,
+  api_token: string | null
+}
+
+export interface IAccountResponse {
+  data: IAccountData[]
+}

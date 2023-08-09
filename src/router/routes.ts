@@ -16,8 +16,14 @@ const routes: IRouteGroup = {
     }
   },
   client: {
-    path: '',
-    layout: importModule(() => import('@/layouts/client'))
+    path: 'client',
+    layout: importModule(() => import('@/layouts/client')),
+    children: {
+      accounts: {
+        path: 'accounts',
+        element: importModule(() => import('@/pages/client/accounts'))
+      }
+    }
   },
   register: {
     path: 'register',

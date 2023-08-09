@@ -3,6 +3,7 @@ import { useAppSelector } from "../../state/hook"
 
 const Header: React.FC = () => {
   const userState = useAppSelector(state => state.user.user)
+  const accountState = useAppSelector(state => state.user.account)
 
   return (
     <div
@@ -28,6 +29,7 @@ const Header: React.FC = () => {
       >
         <Avatar>{userState.name !== undefined && userState.name[0]}</Avatar>
         <span>{userState.name ?? ''}</span>
+        <span>{accountState !== null ? accountState.type + `(${accountState.name})` : 'Admin'}</span>
       </div>
     </div>
   )

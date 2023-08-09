@@ -1,6 +1,4 @@
-import { lazy } from "react";
 import { RouteObject, createBrowserRouter } from "react-router-dom";
-import Loadable from "./loadable";
 import routes from "./routes";
 import { IRouteGroup } from "./utils";
 

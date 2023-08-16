@@ -1,16 +1,21 @@
 import AccountService from "@/api/services/client/account"
-import { IAccountData, IAccountResponse } from "@/api/types/user"
-import { getRoute } from "@/router"
+import { AccountTypeLabels } from "@/api/types/general"
+import { AccountData, IAccountResponse } from "@/api/types/user"
+import Confirm from "@/components/core/confirm"
+import SideMenu from "@/components/core/side-menu"
+import AccountForm from "@/components/forms/account-form"
+import useFiltering from "@/hooks/useFiltering"
 import { useAppDispatch } from "@/state/hook"
-import { setAccount } from "@/state/user"
-import { Box, List, ListItem, ListItemButton, ListItemText } from "@mui/material"
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
 
 const AccountsPage = () => {
-  const [accounts, setAccounts] = useState<IAccountData[]>([])
+  const [accounts, setAccounts] = useState<AccountData[]>([])
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const filtering = useFiltering()
+  const [dialogOpened, setDialogOpened] = useState<boolean>(false)
+  const [selAccountData, setSelAccountData] = useState<AccountData | null>(null)
+  const [menuOpened, setMenuOpened] = useState<boolean>(false)
 
   const getData = () => {
     AccountService.getAccounts((data: IAccountResponse) => {
@@ -18,9 +23,17 @@ const AccountsPage = () => {
     })
   }
 
-  const changeAccount = (account: IAccountData) => {
-    dispatch(setAccount(account))
-    navigate(getRoute('admin.user'))
+  const createAccount = () => {
+    setSelAccountData(null)
+    setMenuOpened(true)
+  }
+
+  const confirmed = (isConfirmed: boolean) => {
+    if (isConfirmed && selAccountData?.id !== undefined) {
+
+    }
+    setSelAccountData(null)
+    setDialogOpened(false)
   }
 
   useEffect(() => {
@@ -29,19 +42,59 @@ const AccountsPage = () => {
 
   return (
     <>
-      <Box sx={{ width: '100%', maxWidth: 360, bgcolor: '#fffde7', margin: '15% auto' }}>
-        <List>
-          {accounts.map((item: IAccountData) => {
-            return (
-              <ListItem key={item.id}>
-                <ListItemButton onClick={() => changeAccount(item)}>
-                  <ListItemText primary={item.name} secondary={item.type} />
-                </ListItemButton>
-              </ListItem>
-            )
-          })}
-        </List>
-      </Box>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: '1rem',
+        }}
+      >
+        <TextField
+          id="filter"
+          label="Name"
+          style={{ width: '30rem' }}
+          onChange={filtering.updateFilter}
+        />
+        <Button
+          variant="contained"
+          style={{ width: '10rem' }}
+          color="success"
+          onClick={() => createAccount()}
+        >
+          Create
+        </Button>
+      </div>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Type</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {accounts.map((item: AccountData) => {
+              return (
+                <TableRow key={item.id}>
+                  <TableCell>{item.id}</TableCell>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{AccountTypeLabels[item.type]}</TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <SideMenu closed={() => setMenuOpened(false)} isOpen={menuOpened} children={
+        <AccountForm accountData={selAccountData ?? undefined} />
+      } />
+      <Confirm
+        title={"Delete account"}
+        text={"Are you sure you want to delete this account?"}
+        opened={dialogOpened}
+        onChange={confirmed}
+      />
     </>
   )
 }

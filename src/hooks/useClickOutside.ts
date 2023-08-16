@@ -6,7 +6,7 @@ const useClickOutside = <T extends HTMLElement>(callback: CallableFunction) => {
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       if (elem.current && !elem.current.contains(event.target as unknown as Node)) {
-        callback()
+        // callback()
       }
     }
 
